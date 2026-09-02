@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { WEDDING_CONFIG } from '../data/weddingData';
 import { Heart, MapPin, ChevronDown, PartyPopper } from 'lucide-react';
 import { triggerWeddingFireworks } from '../utils/fireworks';
@@ -11,25 +11,38 @@ interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInvitation }) => {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleFireworks = (e: React.MouseEvent) => {
     e.preventDefault();
     triggerWeddingFireworks();
   };
 
+  const scrollToInvitation = () => {
+    const target = document.getElementById('wedding-invitation-content');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Calculate dynamic dark overlay opacity based on scroll (smoothly darkens from light 0.25 to deep 0.85)
+  const overlayDarkness = Math.min(0.88, 0.25 + (scrollY / 350) * 0.63);
+
   return (
     <section
       id="hero"
-      className="relative min-h-[94vh] sm:min-h-screen flex items-center justify-center overflow-hidden bg-stone-950 text-white"
+      className="relative flex flex-col items-center justify-start overflow-hidden bg-stone-950 text-white"
     >
-      {/* Refined Patriotic Corner Ornaments (Top & Bottom Corners) */}
-      <SectionCornerDecorations
-        corners={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
-        variant="flag-and-lotus"
-        className="opacity-90 mt-14 sm:mt-16"
-      />
-
-      {/* Background Image with Instant Async Decoding */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      {/* 1. Fixed Background Couple Photo with Dynamic Scroll Darkening */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <img
           src={WEDDING_CONFIG.bgImage || WEDDING_CONFIG.heroImage}
           onError={(e) => {
@@ -38,16 +51,55 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInvitation }) =>
           loading="eager"
           decoding="async"
           alt="Trương Minh Cảnh & Nguyễn Đàm Thanh Nhi"
-          className="w-full h-full object-cover object-center scale-105"
+          className="w-full h-full object-cover object-[center_20%] sm:object-[center_24%]"
         />
-        {/* Deep regal crimson and dark ambient overlay for a patriotic luxury atmosphere */}
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-black/55 to-stone-950/70" />
-        <div className="absolute inset-0 bg-red-950/25 mix-blend-multiply pointer-events-none" />
+
+        {/* Dynamic Dark Gradient Overlay: Light when at the top, smoothly darkens on scroll */}
+        <div 
+          className="absolute inset-0 transition-opacity duration-300 pointer-events-none"
+          style={{ 
+            backgroundColor: `rgba(12, 10, 9, ${overlayDarkness})`,
+          }}
+        />
+
+        {/* Subtle romantic gradient from top & bottom */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-stone-950/90 pointer-events-none" />
       </div>
 
-      {/* Hero Content Container with Motion Blur ScrollReveal */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-20 sm:py-24 text-center flex flex-col items-center">
-        
+      {/* 2. Initial Fullscreen View (Stage 1): Only the Couple Photo is shown clean and unobstructed */}
+      <div className="relative z-10 w-full min-h-[100dvh] flex flex-col justify-between items-center px-4 pointer-events-auto">
+        {/* Top Header Tag - Safely positioned below the top Navbar with clear breathing room */}
+        <div className="pt-20 sm:pt-24 text-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-950/60 backdrop-blur-md border border-amber-300/40 text-amber-200 text-xs sm:text-sm font-semibold tracking-wider uppercase shadow-lg">
+            <WavingVietnameseFlag width={22} height={14} showPole={false} />
+            <span>Minh Cảnh & Thanh Nhi</span>
+          </div>
+        </div>
+
+        {/* Bottom Scroll Prompt: "Vuốt lên để xem thiệp cưới" */}
+        <div className="pb-8 sm:pb-12 text-center flex flex-col items-center cursor-pointer group" onClick={scrollToInvitation}>
+          <div className="px-5 py-2.5 rounded-full bg-stone-950/75 backdrop-blur-md border border-amber-400/60 text-amber-200 shadow-2xl transition-all duration-300 group-hover:scale-105 group-hover:border-amber-300 flex items-center gap-2 mb-2">
+            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 animate-pulse" />
+            <span className="text-xs sm:text-sm font-semibold tracking-wide text-amber-100">
+              Vuốt lên để xem thiệp cưới
+            </span>
+          </div>
+          <ChevronDown className="w-5 h-5 animate-bounce text-amber-300" />
+        </div>
+      </div>
+
+      {/* 3. Main Wedding Invitation Card & Details (Stage 2): Glides Up with Dark Background */}
+      <div 
+        id="wedding-invitation-content"
+        className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center flex flex-col items-center"
+      >
+        {/* Refined Patriotic Corner Ornaments */}
+        <SectionCornerDecorations
+          corners={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
+          variant="flag-and-lotus"
+          className="opacity-90"
+        />
+
         {/* Patriotic Warm Welcome Grand Badge */}
         <ScrollReveal direction="fly-down" duration={0.45}>
           <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 py-1.5 sm:py-2 rounded-full bg-stone-950/80 backdrop-blur-md border border-amber-400/60 text-amber-200 text-[11px] sm:text-xs font-semibold tracking-wider uppercase mb-5 sm:mb-6 shadow-xl">
@@ -64,7 +116,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInvitation }) =>
         </ScrollReveal>
 
         {/* Main Grand Names - Pure, Elegant, High-Contrast Typography */}
-        <ScrollReveal direction="zoom-blur" duration={0.5} delay={0.1}>
+        <ScrollReveal direction="fly-up" duration={0.5} delay={0.08}>
           <div className="relative my-2">
             <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl font-bold tracking-normal text-white uppercase leading-tight drop-shadow-2xl">
               <span className="bg-gradient-to-r from-amber-100 via-white to-amber-200 bg-clip-text text-transparent">
@@ -81,7 +133,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInvitation }) =>
         </ScrollReveal>
 
         {/* Elegant Golden Divider */}
-        <ScrollReveal direction="zoom" duration={0.45} delay={0.12}>
+        <ScrollReveal direction="zoom" duration={0.45} delay={0.1}>
           <div className="flex items-center justify-center gap-3 my-3 sm:my-4">
             <div className="w-16 sm:w-28 h-[1.5px] bg-gradient-to-r from-transparent via-amber-400 to-amber-300" />
             <div className="w-2 h-2 rotate-45 bg-amber-400 shadow-xs" />
@@ -90,14 +142,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInvitation }) =>
         </ScrollReveal>
 
         {/* Patriotic Warm Greeting Message */}
-        <ScrollReveal direction="fly-up" duration={0.45} delay={0.15}>
+        <ScrollReveal direction="fly-up" duration={0.45} delay={0.12}>
           <p className="max-w-xl text-stone-200 font-serif-cormorant italic text-sm sm:text-base md:text-lg px-2 drop-shadow-md leading-relaxed">
             “Non sông gấm vóc dệt duyên lành — Minh Cảnh & Thanh Nhi nguyện cùng nhau vun đắp tổ ấm hạnh phúc, trọn vẹn tình yêu lứa đôi hòa cùng niềm tự hào quê hương đất nước.”
           </p>
         </ScrollReveal>
 
         {/* Location Badge */}
-        <ScrollReveal direction="fly-right" duration={0.45} delay={0.18}>
+        <ScrollReveal direction="fly-right" duration={0.45} delay={0.14}>
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 my-5 sm:my-6 text-xs text-amber-100">
             <div className="flex items-center gap-2 bg-stone-900/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-amber-400/40 text-[11px] sm:text-xs shadow-md">
               <MapPin className="w-3.5 h-3.5 text-amber-300" />
@@ -107,7 +159,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInvitation }) =>
         </ScrollReveal>
 
         {/* Action Buttons */}
-        <ScrollReveal direction="fly-up" duration={0.5} delay={0.2}>
+        <ScrollReveal direction="fly-up" duration={0.5} delay={0.16}>
           <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3.5 w-full sm:w-auto px-4 max-w-md sm:max-w-none">
             <a
               href="#rsvp"
@@ -142,14 +194,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInvitation }) =>
       {/* Scroll Down Indicator */}
       <a
         href="#countdown"
-        className="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center text-stone-300 hover:text-amber-300 transition-colors group"
+        className="relative z-10 my-4 flex flex-col items-center text-stone-300 hover:text-amber-300 transition-colors group"
       >
         <span className="text-[10px] uppercase tracking-widest font-medium mb-0.5 group-hover:translate-y-0.5 transition-transform text-amber-200/90">
-          Khám phá ngày vui
+          Lịch trình & Đếm ngược
         </span>
         <ChevronDown className="w-4 h-4 animate-bounce text-amber-300" />
       </a>
     </section>
   );
 };
+
 

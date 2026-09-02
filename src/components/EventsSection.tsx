@@ -33,7 +33,7 @@ export const EventsSection: React.FC = () => {
   return (
     <section
       id="events"
-      className="py-16 sm:py-24 relative bg-[#FEFDF9] border-b border-amber-200/60 overflow-hidden"
+      className="py-14 sm:py-20 relative bg-[#FEFDF9] overflow-hidden"
     >
       {/* Refined Corner Ornaments with Flag and Lotus */}
       <SectionCornerDecorations

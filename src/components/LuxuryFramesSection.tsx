@@ -3,6 +3,7 @@ import { GALLERY_PHOTOS, WEDDING_CONFIG } from '../data/weddingData';
 import { Heart, Sparkles, ZoomIn, X, ChevronLeft, ChevronRight, Image as ImageIcon, Award, Eye } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 import { GoldenLotusIcon, WavingVietnameseFlag, SectionCornerDecorations } from './PatrioticEmblem';
+import { OptimizedImage } from './OptimizedImage';
 
 export const LuxuryFramesSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -110,10 +111,12 @@ export const LuxuryFramesSection: React.FC = () => {
                 onClick={() => openLightbox(0)}
                 className="lg:col-span-7 relative h-72 sm:h-96 md:h-[460px] rounded-2xl overflow-hidden shadow-lg border border-amber-200/80 group cursor-pointer bg-stone-900"
               >
-                <img
+                <OptimizedImage
                   src={WEDDING_CONFIG.coupleCoverImage || GALLERY_PHOTOS[0].imageUrl}
                   alt="Khung Ảnh Cổng Hoàng Gia - Thanh Nhi & Minh Cảnh"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  priority={true}
+                  containerClassName="w-full h-full"
+                  className="group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
 
                 {/* Subtle Inner Gold Bevel Outline */}
@@ -164,10 +167,10 @@ export const LuxuryFramesSection: React.FC = () => {
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <div className="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-center relative overflow-hidden">
                     <div className="w-12 h-12 rounded-full mx-auto mb-1.5 overflow-hidden border-2 border-rose-300 shadow-xs">
-                      <img
+                      <OptimizedImage
                         src={WEDDING_CONFIG.bride.avatar}
                         alt="Cô Dâu Thanh Nhi"
-                        className="w-full h-full object-cover"
+                        containerClassName="w-full h-full"
                       />
                     </div>
                     <span className="text-[10px] uppercase font-bold text-rose-800 tracking-wider">Cô Dâu</span>
@@ -178,10 +181,10 @@ export const LuxuryFramesSection: React.FC = () => {
 
                   <div className="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-center relative overflow-hidden">
                     <div className="w-12 h-12 rounded-full mx-auto mb-1.5 overflow-hidden border-2 border-amber-300 shadow-xs">
-                      <img
+                      <OptimizedImage
                         src={WEDDING_CONFIG.groom.avatar}
                         alt="Chú Rể Minh Cảnh"
-                        className="w-full h-full object-cover"
+                        containerClassName="w-full h-full"
                       />
                     </div>
                     <span className="text-[10px] uppercase font-bold text-amber-900 tracking-wider">Chú Rể</span>
@@ -247,11 +250,11 @@ export const LuxuryFramesSection: React.FC = () => {
 
                   {/* Photo Matting Slot */}
                   <div className="relative w-full h-64 sm:h-72 lg:h-80 rounded-xl sm:rounded-2xl overflow-hidden bg-stone-900 border border-amber-100 shadow-inner">
-                    <img
+                    <OptimizedImage
                       src={photo.imageUrl}
                       alt={photo.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+                      containerClassName="w-full h-full"
+                      className="group-hover:scale-108 transition-transform duration-700 ease-out"
                     />
 
                     {/* Frame Inner Inset Border */}

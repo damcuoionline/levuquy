@@ -55,7 +55,7 @@ export const WEDDING_CONFIG = {
     title: "Groom",
     description: "Một chàng trai điềm tĩnh, ấm áp, luôn chu đáo và dành trọn tình yêu thương cho Thanh Nhi. Với Minh Cảnh, hạnh phúc là mỗi ngày được thấy nụ cười của người bạn đời.",
     quote: "“Gặp được em là điều may mắn nhất, và cùng em đi đến hết cuộc đời là ước mơ lớn nhất của anh.”",
-    avatar: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC00438.jpg?raw=true",
+    avatar: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00438.jpg",
     phone: "0979.519.585",
     facebook: "https://facebook.com",
     zalo: "https://zalo.me/0979519585",
@@ -73,7 +73,7 @@ export const WEDDING_CONFIG = {
     title: "Bride",
     description: "Một cô gái ngọt ngào, dịu dàng và luôn tràn đầy năng lượng tích cực. Thanh Nhi tin rằng tình yêu đích thực là sự thấu hiểu, đồng hành và cùng nhau sẻ chia mọi khoảnh khắc trong cuộc sống.",
     quote: "“Cảm ơn anh vì đã luôn kiên nhẫn, yêu thương và biến mọi ngày bình thường của em thành ngày đặc biệt.”",
-    avatar: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC00553.JPG?raw=true",
+    avatar: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00553.JPG",
     phone: "0357.695.265",
     facebook: "https://facebook.com",
     zalo: "https://zalo.me/0357695265",
@@ -89,9 +89,9 @@ export const WEDDING_CONFIG = {
   dateFormatted: "Chủ Nhật, 27 Tháng 09 Năm 2026",
   lunarDateFormatted: "17 Tháng 08 Năm Bính Ngọ",
   googleDriveUrl: "https://drive.google.com/drive/folders/1zNxSGVaIqAS8SGRgT1xuTfpWTSw1iVSW?usp=sharing",
-  bgImage: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC00130%20phong.JPG?raw=true",
-  heroImage: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC00130%20phong.JPG?raw=true",
-  coupleCoverImage: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC09971%20phong.JPG?raw=true",
+  bgImage: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00130%20phong.JPG",
+  heroImage: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00130%20phong.JPG",
+  coupleCoverImage: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09971%20phong.JPG",
 };
 
 export const STORY_MILESTONES: StoryMilestone[] = [
@@ -196,91 +196,91 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: "Phông Nền Hạnh Phúc",
     caption: "Khoảnh khắc thiêng liêng rạng rỡ của Minh Cảnh & Thanh Nhi trong ngày trọng đại.",
     category: "prewedding",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC00130%20phong.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00130%20phong.JPG"
   },
   {
     id: "p2",
     title: "Nét Đẹp Duyên Dáng",
     caption: "Tình yêu dịu dàng và ánh mắt đong đầy yêu thương.",
     category: "prewedding",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC09971%20phong.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09971%20phong.JPG"
   },
   {
     id: "p3",
     title: "Nụ Cười Rạng Rỡ",
     caption: "Mỗi nụ cười đều là một niềm hạnh phúc vô giá khi được ở bên nhau.",
     category: "studio",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC00174.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00174.JPG"
   },
   {
     id: "p4",
     title: "Tay Trong Tay",
     caption: "Nắm chặt bàn tay cùng nhau đi qua mọi thăng trầm của cuộc đời.",
     category: "studio",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC00190.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00190.JPG"
   },
   {
     id: "p5",
     title: "Ngọt Ngào Bên Nhau",
     caption: "Hạnh phúc đơn giản là mỗi ngày đều có em đồng hành.",
     category: "moments",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC00280.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00280.JPG"
   },
   {
     id: "p6",
     title: "Ánh Mắt Yêu Thương",
     caption: "Tình yêu đong đầy trong từng cử chỉ ân cần, chu đáo.",
     category: "studio",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC00438.jpg?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00438.jpg"
   },
   {
     id: "p7",
     title: "Nàng Dâu Xinh Đẹp",
     caption: "Vẻ đẹp thuần khiết, rạng ngời của Thanh Nhi trong ngày chung đôi.",
     category: "studio",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC00553.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00553.JPG"
   },
   {
     id: "p8",
     title: "Hẹn Ước Trăm Năm",
     caption: "Lời nguyện ước bền lâu, thủy chung đến trọn cuộc đời.",
     category: "prewedding",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC00591.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00591.JPG"
   },
   {
     id: "p9",
     title: "Ánh Nhìn Định Mệnh",
     caption: "Khoảnh khắc thiêng liêng nhất khi hai trái tim hòa cùng một nhịp đập.",
     category: "prewedding",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC06745.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC06745.JPG"
   },
   {
     id: "p10",
     title: "Bình Yên Bên Anh",
     caption: "Chỉ cần bên nhau, mọi giông bão đều dừng lại sau cánh cửa.",
     category: "moments",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC09855.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09855.JPG"
   },
   {
     id: "p11",
     title: "Hạnh Phúc Ngập Tràn",
     caption: "Những khoảnh khắc chân thật, ngọt ngào và đáng nhớ nhất.",
     category: "moments",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC09895.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09895.JPG"
   },
   {
     id: "p12",
     title: "Cùng Nhìn Về Một Hướng",
     caption: "Hành trình mới mở ra với biết bao ước mơ và hy vọng xây đắp tổ ấm.",
     category: "prewedding",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC09904.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09904.JPG"
   },
   {
     id: "p13",
     title: "Ngày Chung Đôi",
     caption: "Minh Cảnh & Thanh Nhi hân hoan bước vào ngày trọng đại nhất cuộc đời.",
     category: "studio",
-    imageUrl: "https://github.com/hoaingotiengtrung/filenhac/blob/main/DSC09963.JPG?raw=true"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09963.JPG"
   }
 ];
 

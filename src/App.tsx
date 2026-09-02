@@ -11,12 +11,36 @@ import { FloatingPetals } from './components/FloatingPetals';
 import { InvitationGate } from './components/InvitationGate';
 import { FloatingMobileBar } from './components/FloatingMobileBar';
 import { FloatingMusicPlayer } from './components/FloatingMusicPlayer';
+import { SectionTransition } from './components/SectionTransition';
 import { weddingAudio } from './components/AudioEngine';
-import { WEDDING_CONFIG } from './data/weddingData';
+import { WEDDING_CONFIG, GALLERY_PHOTOS } from './data/weddingData';
+import { preloadImages } from './utils/imageOptimizer';
 
 export default function App() {
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const [isInvitationGateActive, setIsInvitationGateActive] = useState(true);
+
+  // Background High-Speed Preloading of All Wedding Assets
+  useEffect(() => {
+    // 1. High priority: Hero, Cover, Couple avatars
+    const criticalImages = [
+      WEDDING_CONFIG.bgImage,
+      WEDDING_CONFIG.heroImage,
+      WEDDING_CONFIG.coupleCoverImage,
+      WEDDING_CONFIG.groom.avatar,
+      WEDDING_CONFIG.bride.avatar,
+    ].filter(Boolean) as string[];
+
+    preloadImages(criticalImages, 'high');
+
+    // 2. Medium priority: Preload all gallery photos after a tiny delay so network bandwidth isn't congested
+    const timer = setTimeout(() => {
+      const galleryUrls = GALLERY_PHOTOS.map((p) => p.imageUrl).filter(Boolean);
+      preloadImages(galleryUrls, 'low');
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const unsubscribe = weddingAudio.subscribe((state) => {
@@ -91,20 +115,38 @@ export default function App() {
           onOpenInvitation={handleOpenInvitationGate}
         />
 
+        {/* Transition 1: Lotus Glow */}
+        <SectionTransition variant="lotus-glow" className="bg-gradient-to-b from-stone-950/80 via-[#FEFDF9] to-[#FEFDF9]" />
+
         {/* 2. Wedding Countdown Section */}
         <CountdownSection />
+
+        {/* Transition 2: Gold Crest Ribbon */}
+        <SectionTransition variant="gold-crest" className="bg-[#FEFDF9]" />
 
         {/* 3. The Wedding Events: Lễ Vu Quy & Tiệc Cưới */}
         <EventsSection />
 
-        {/* 5. Photo Gallery with Lightbox */}
+        {/* Transition 3: Double Gold Hairline */}
+        <SectionTransition variant="double-hairline" className="bg-gradient-to-b from-[#FEFDF9] to-[#FEFCF7]" />
+
+        {/* 4. Photo Gallery with Lightbox */}
         <GallerySection />
 
-        {/* 7. RSVP Form & Digital Guestbook */}
+        {/* Transition 4: Lotus Glow */}
+        <SectionTransition variant="lotus-glow" className="bg-gradient-to-b from-[#FEFCF7] to-[#FEFCF6]" />
+
+        {/* 5. RSVP Form & Digital Guestbook */}
         <RSVPSection />
 
-        {/* 8. FAQs: Dresscode palette, parking, queries */}
+        {/* Transition 5: Gold Crest Ribbon */}
+        <SectionTransition variant="gold-crest" className="bg-[#FEFCF6]" />
+
+        {/* 6. FAQs: Dresscode palette, parking, queries */}
         <FAQSection />
+
+        {/* Transition 6: Double Gold Hairline */}
+        <SectionTransition variant="double-hairline" className="bg-gradient-to-b from-[#FEFCF6] to-stone-900" />
       </main>
 
       {/* Footer: Sincere Gratitude & Hotlines */}

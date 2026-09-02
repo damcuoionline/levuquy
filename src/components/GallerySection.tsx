@@ -3,6 +3,7 @@ import { GALLERY_PHOTOS, WEDDING_CONFIG } from '../data/weddingData';
 import { Heart, ZoomIn, X, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 import { GoldenLotusIcon, WavingVietnameseFlag, SectionCornerDecorations } from './PatrioticEmblem';
+import { OptimizedImage } from './OptimizedImage';
 
 export const GallerySection: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -49,7 +50,7 @@ export const GallerySection: React.FC = () => {
   return (
     <section
       id="gallery"
-      className="py-16 sm:py-24 relative bg-[#FEFCF7] border-b border-amber-200/60 overflow-hidden"
+      className="py-14 sm:py-20 relative bg-[#FEFCF7] overflow-hidden"
     >
       {/* Corner Ornaments with Waving Flag & Glowing Lotus */}
       <SectionCornerDecorations
@@ -119,12 +120,11 @@ export const GallerySection: React.FC = () => {
                   onClick={() => openLightbox(index)}
                   className="group relative h-48 sm:h-64 lg:h-72 rounded-2xl overflow-hidden shadow-2xs hover:shadow-md border border-amber-200/80 cursor-pointer bg-stone-100 transition-all duration-300 transform hover:-translate-y-0.5"
                 >
-                  <img
+                  <OptimizedImage
                     src={photo.imageUrl}
                     alt={photo.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
+                    containerClassName="w-full h-full"
+                    className="group-hover:scale-105 transition-transform duration-300 ease-out"
                   />
 
                   {/* Hover Overlay with Caption & Responsive Text Wrapping */}

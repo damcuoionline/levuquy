@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
   body {
     font-family: 'Be Vietnam Pro', 'Montserrat', sans-serif;
+    overflow-x: hidden;
   }
 }
 
