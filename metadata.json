@@ -1,0 +1,6 @@
+{
+  "name": "Đám Cưới Minh Cảnh & Thanh Nhi",
+  "description": "Trang web đám cưới lãng mạn, thanh lịch của Trương Minh Cảnh & Nguyễn Đàm Thanh Nhi với đếm ngược thời gian, lịch trình, album ảnh và RSVP.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
