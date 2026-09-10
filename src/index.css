@@ -216,10 +216,59 @@
 }
 ::-webkit-scrollbar-thumb {
   background: #C4B086;
-  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #B91C1C;
 }
+
+/* ==========================================================================
+   HIỆU ỨNG TƯƠNG TÁC: NỔI HÌNH LÊN RỒI TỪ TỪ CHÌM DẦN LÀM NỀN PHÍA SAU
+   1. Bấm vào ảnh: Nổi lên trước (zoom 1.05 - 1.1x, bóng đổ sáng nhẹ tạo khối)
+   2. Giữ khoảng 1 - 1.5 giây để chiêm ngưỡng
+   3. Từ từ chìm dần xuống làm nền phía sau với chuyển động mượt mà (smooth keyframes)
+   4. Luôn giữ 100% màu sắc gốc chân thực, không mờ nhạt, không đổi màu hay biến dạng
+   ========================================================================== */
+@keyframes photoPopAndSink {
+  0% {
+    transform: scale(1) translateY(0);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+  15% {
+    /* Nổi lên phía trước: phóng to nhẹ ~1.08x, tạo chiều sâu nổi khối */
+    transform: scale(1.08) translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), 0 0 35px rgba(251, 191, 36, 0.28);
+  }
+  45% {
+    /* Duy trì trạng thái nổi trong khoảng 1 - 1.5 giây */
+    transform: scale(1.08) translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), 0 0 35px rgba(251, 191, 36, 0.28);
+  }
+  100% {
+    /* Từ từ chìm dần xuống làm nền phía sau với chuyển động êm dịu */
+    transform: scale(1) translateY(0);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.animate-photo-pop-sink {
+  animation: photoPopAndSink 2.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Hiệu ứng hào quang vàng kim nổi nhẹ khi tương tác */
+@keyframes glowPulseSubtle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.04);
+  }
+}
+
+.animate-glow-subtle {
+  animation: glowPulseSubtle 2.8s ease-in-out forwards;
+}
+
 
 

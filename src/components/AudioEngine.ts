@@ -1,28 +1,50 @@
-// Wedding Background Audio Engine with Direct MP3 Streams
-// 1. "Lễ Đường" - Kai Đinh
-// 2. "Váy Cưới" - ERIK, Kai Đinh
+// Wedding Background Audio Engine with Automatic Direct Stream Fallbacks
+// 1. "Váy Cưới" - ERIK, Kai Đinh (Primary track requested)
+// 2. "Lễ Đường" - Kai Đinh
 
 export interface SongTrack {
   id: string;
   title: string;
   artist: string;
   src: string;
+  fallbackUrls?: string[];
   badge: string;
 }
 
+const getLocalAudioUrl = (filename: string): string => {
+  const base = ((import.meta as unknown as { env?: { BASE_URL?: string } }).env?.BASE_URL) || '/';
+  const cleanBase = base.endsWith('/') ? base : `${base}/`;
+  return `${cleanBase}audio/${filename}`;
+};
+
 export const WEDDING_PLAYLIST: SongTrack[] = [
-  {
-    id: "le-duong",
-    title: "Lễ Đường",
-    artist: "Kai Đinh",
-    src: "https://github.com/hoaingotiengtrung/filenhac/raw/refs/heads/main/Le%CC%82%CC%83%20%C4%90u%CC%9Bo%CC%9B%CC%80ng%20-%20Kai%20%C4%90inh.mp3",
-    badge: "Bài hát 1"
-  },
   {
     id: "vay-cuoi",
     title: "Váy Cưới",
     artist: "ERIK, Kai Đinh",
-    src: "https://github.com/hoaingotiengtrung/filenhac/raw/refs/heads/main/Va%CC%81y%20Cu%CC%9Bo%CC%9B%CC%81i%20-%20ERIK,%20Kai%20%C4%90inh.mp3",
+    // 1st priority: local ultra-fast zero-delay static copy
+    src: getLocalAudioUrl("vay-cuoi.mp3"),
+    fallbackUrls: [
+      // 2nd priority: permanent commit-pinned GitHub raw audio stream (HTTP 200, 3.6MB)
+      "https://raw.githubusercontent.com/damcuoionline/filenhac/7b8ce80855f7e5fcb4bf7d574975c7bcd2404ad7/Va%CC%81y%20Cu%CC%9Bo%CC%9B%CC%81i%20-%20ERIK%2C%20Kai%20%C4%90inh.mp3",
+      // 3rd priority: github raw commit redirect
+      "https://github.com/damcuoionline/filenhac/raw/7b8ce80855f7e5fcb4bf7d574975c7bcd2404ad7/Va%CC%81y%20Cu%CC%9Bo%CC%9B%CC%81i%20-%20ERIK,%20Kai%20%C4%90inh.mp3",
+      // 4th priority: standard repo paths in case restored
+      "https://raw.githubusercontent.com/damcuoionline/filenhac/refs/heads/main/Va%CC%81y%20Cu%CC%9Bo%CC%9B%CC%81i%20-%20ERIK,%20Kai%20%C4%90inh.mp3",
+      "https://github.com/damcuoionline/filenhac/raw/refs/heads/main/Va%CC%81y%20Cu%CC%9Bo%CC%9B%CC%81i%20-%20ERIK,%20Kai%20%C4%90inh.mp3"
+    ],
+    badge: "Bài hát 1"
+  },
+  {
+    id: "le-duong",
+    title: "Lễ Đường",
+    artist: "Kai Đinh",
+    src: getLocalAudioUrl("le-duong.mp3"),
+    fallbackUrls: [
+      "https://raw.githubusercontent.com/damcuoionline/filenhac/refs/heads/main/Le%CC%82%CC%83%20%C4%90u%CC%9Bo%CC%9B%CC%80ng%20-%20Kai%20%C4%90inh.mp3",
+      "https://raw.githubusercontent.com/damcuoionline/filenhac/main/Le%CC%82%CC%83%20%C4%90u%CC%9Bo%CC%9B%CC%80ng%20-%20Kai%20%C4%90inh.mp3",
+      "https://github.com/damcuoionline/filenhac/raw/refs/heads/main/Le%CC%82%CC%83%20%C4%90u%CC%9Bo%CC%9B%CC%80ng%20-%20Kai%20%C4%90inh.mp3"
+    ],
     badge: "Bài hát 2"
   }
 ];
@@ -39,15 +61,26 @@ class WeddingAudioEngine {
   private audio: HTMLAudioElement | null = null;
   private isPlaying: boolean = false;
   private currentTrackIndex: number = 0;
-  private volume: number = 0.8;
+  private currentCandidateIndex: number = 0;
+  private volume: number = 0.85;
   private listeners: ((state: AudioState) => void)[] = [];
   private hasInitialized: boolean = false;
 
   constructor() {
-    // Lazy init on client
     if (typeof window !== 'undefined') {
       this.initAudio();
     }
+  }
+
+  private getCandidatesForTrack(trackIndex: number): string[] {
+    const track = WEDDING_PLAYLIST[trackIndex] || WEDDING_PLAYLIST[0];
+    const list: string[] = [];
+    if (track.src) list.push(track.src);
+    if (track.fallbackUrls) {
+      list.push(...track.fallbackUrls);
+    }
+    // Deduplicate
+    return Array.from(new Set(list));
   }
 
   private initAudio() {
@@ -58,7 +91,6 @@ class WeddingAudioEngine {
       this.audio = new Audio();
       this.audio.preload = 'auto';
       this.audio.volume = this.volume;
-      this.loadTrack(this.currentTrackIndex, false);
 
       this.audio.addEventListener('ended', () => {
         this.nextTrack();
@@ -78,11 +110,40 @@ class WeddingAudioEngine {
         this.notify();
       });
 
+      this.audio.addEventListener('loadedmetadata', () => {
+        this.notify();
+      });
+
       this.audio.addEventListener('error', (e) => {
         console.warn('Wedding audio error:', e);
+        this.tryNextCandidate(this.isPlaying);
       });
+
+      this.loadTrack(this.currentTrackIndex, false);
     } catch (err) {
       console.warn('Could not initialize audio:', err);
+    }
+  }
+
+  private tryNextCandidate(shouldAutoPlay: boolean) {
+    if (!this.audio) return;
+    const candidates = this.getCandidatesForTrack(this.currentTrackIndex);
+    if (this.currentCandidateIndex + 1 < candidates.length) {
+      this.currentCandidateIndex += 1;
+      const nextUrl = candidates[this.currentCandidateIndex];
+      console.log(`Switching to backup audio URL (${this.currentCandidateIndex + 1}/${candidates.length}):`, nextUrl);
+      this.audio.src = nextUrl;
+      this.audio.load();
+      if (shouldAutoPlay) {
+        this.audio.play().then(() => {
+          this.isPlaying = true;
+          this.notify();
+        }).catch(() => {
+          this.tryNextCandidate(shouldAutoPlay);
+        });
+      }
+    } else {
+      console.warn('All audio sources exhausted for track', this.currentTrackIndex);
     }
   }
 
@@ -91,10 +152,16 @@ class WeddingAudioEngine {
     if (!this.audio) return;
 
     this.currentTrackIndex = (index + WEDDING_PLAYLIST.length) % WEDDING_PLAYLIST.length;
-    const track = WEDDING_PLAYLIST[this.currentTrackIndex];
+    this.currentCandidateIndex = 0;
+    const candidates = this.getCandidatesForTrack(this.currentTrackIndex);
+    const targetUrl = candidates[0];
 
-    this.audio.src = track.src;
-    this.audio.load();
+    try {
+      this.audio.src = targetUrl;
+      this.audio.load();
+    } catch (e) {
+      console.warn('Error setting audio src:', e);
+    }
 
     if (autoPlay) {
       const playPromise = this.audio.play();
@@ -105,9 +172,8 @@ class WeddingAudioEngine {
             this.notify();
           })
           .catch((err) => {
-            console.log('Audio autoplay prevented by browser policy:', err);
-            this.isPlaying = false;
-            this.notify();
+            console.log('Autoplay attempt caught, trying direct fallback stream:', err);
+            this.tryNextCandidate(true);
           });
       }
     } else {
@@ -157,7 +223,7 @@ class WeddingAudioEngine {
     this.initAudio();
     if (!this.audio) return;
 
-    if (!this.audio.src || this.audio.src === '' || this.audio.src === window.location.href) {
+    if (!this.audio.src || this.audio.src === '' || this.audio.error) {
       this.loadTrack(this.currentTrackIndex, true);
       return;
     }
@@ -170,7 +236,8 @@ class WeddingAudioEngine {
           this.notify();
         })
         .catch((err) => {
-          console.log('Audio play gesture required:', err);
+          console.log('Audio play failed, retrying with fallback CDN stream:', err);
+          this.tryNextCandidate(true);
         });
     }
   }

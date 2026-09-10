@@ -67,11 +67,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 isScrolled ? 'text-amber-950' : 'text-white'
               }`}
             >
-              <span>Minh Cảnh & Thanh Nhi</span>
-              <GoldenLotusIcon size={14} className="opacity-90" />
+              <span className="whitespace-nowrap">Minh Cảnh & Thanh Nhi</span>
+              <GoldenLotusIcon size={14} className="opacity-90 shrink-0" />
             </span>
             <span
-              className={`text-[10px] tracking-widest uppercase font-medium ${
+              className={`text-[10px] tracking-widest uppercase font-medium whitespace-nowrap ${
                 isScrolled ? 'text-red-700' : 'text-amber-300/90'
               }`}
             >

@@ -35,13 +35,6 @@ export const EventsSection: React.FC = () => {
       id="events"
       className="py-14 sm:py-20 relative bg-[#FEFDF9] overflow-hidden"
     >
-      {/* Refined Corner Ornaments with Flag and Lotus */}
-      <SectionCornerDecorations
-        corners={['top-left', 'top-right']}
-        variant="flag-and-lotus"
-        className="opacity-80"
-      />
-
       {/* Decorative Floating Lotus Elements */}
       <div className="absolute top-12 left-4 pointer-events-none opacity-25 hidden sm:block">
         <GoldenLotusIcon size={60} className="animate-lotus-glow" />
@@ -61,8 +54,9 @@ export const EventsSection: React.FC = () => {
             <GoldenLotusIcon size={16} className="animate-lotus-glow" />
           </div>
 
-          <h2 className="font-heading text-2xl sm:text-4xl md:text-5xl font-bold text-amber-950 tracking-tight mb-3">
-            Lễ Vu Quy & Tiệc Mừng
+          <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-bold text-amber-950 tracking-tight mb-3 leading-tight md:whitespace-nowrap text-balance">
+            <span className="inline-block">Lễ Vu Quy</span>{' '}
+            <span className="inline-block">&amp; Tiệc Mừng</span>
           </h2>
           <div className="flex items-center justify-center gap-2 mx-auto mb-4">
             <div className="w-16 sm:w-20 h-0.5 bg-gradient-to-r from-transparent to-amber-400" />
@@ -158,24 +152,24 @@ export const EventsSection: React.FC = () => {
                   rel="noreferrer"
                   className="flex-1 min-w-[150px] py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 hover:from-amber-500 hover:to-yellow-400 text-stone-950 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 shadow-2xs transition-all border border-amber-200"
                 >
-                  <Navigation className="w-3.5 h-3.5 text-stone-950" />
-                  <span>Chỉ Đường Google Maps</span>
+                  <Navigation className="w-3.5 h-3.5 text-stone-950 shrink-0" />
+                  <span className="whitespace-nowrap">Chỉ Đường Google Maps</span>
                 </a>
 
                 <button
                   onClick={() => handleAddToCal(activeEvent)}
                   className="py-2.5 px-4 rounded-xl bg-amber-100/70 hover:bg-amber-200 text-amber-950 border border-amber-300/80 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                 >
-                  <Calendar className="w-3.5 h-3.5 text-amber-800" />
-                  <span>Lưu Vào Lịch</span>
+                  <Calendar className="w-3.5 h-3.5 text-amber-800 shrink-0" />
+                  <span className="whitespace-nowrap">Lưu Vào Lịch</span>
                 </button>
               </div>
 
               {/* Timeline Breakdown */}
               <div className="mt-1">
                 <h4 className="font-heading text-sm sm:text-base font-bold text-amber-950 mb-2.5 flex items-center gap-2">
-                  <GoldenLotusIcon size={16} />
-                  <span>Lịch Trình Chi Tiết</span>
+                  <GoldenLotusIcon size={16} className="shrink-0" />
+                  <span className="whitespace-nowrap">Lịch Trình Chi Tiết</span>
                 </h4>
                 <div className="space-y-2 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-amber-200">
                   {activeEvent.timeline.map((step, idx) => (

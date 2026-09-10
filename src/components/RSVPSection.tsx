@@ -8,6 +8,9 @@ import { GoldenLotusIcon, WavingVietnameseFlag, SectionCornerDecorations } from 
 const GOOGLE_SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbwpxi7QfALOdf0bmmyKaB0MwDXop3zP9eL43MoTFoT48b7So1BSSdZ0agCCK1Znuog/exec';
 
+const TELEGRAM_BOT_TOKEN = '8980708944:AAHhCgkRNiEoxdcJNQnghQ4p2IiUbjJ7FtI';
+const TELEGRAM_CHAT_ID = '1942103494';
+
 export const RSVPSection: React.FC = () => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -86,6 +89,52 @@ export const RSVPSection: React.FC = () => {
       'Lời chúc': guestWish || 'Chúc hai bạn trăm năm hạnh phúc, vẹn tròn nghĩa phu thê! ❤️',
     };
 
+    // 1. Send notification to Telegram Bot
+    const telegramMessage =
+      `💍 *CÓ KHÁCH XÁC NHẬN MỚI!*\n\n` +
+      `👤 *Họ tên:* ${guestName}\n` +
+      `📞 *Số điện thoại:* ${guestPhone || 'Chưa cung cấp'}\n` +
+      `🏷 *Nhóm:* ${formData.guestOf}\n` +
+      `💌 *Tham dự:* ${isAttending === 'Có' ? 'Có tham dự ❤️' : 'Không thể tham dự 🥺'}\n` +
+      `👥 *Số lượng đi:* ${guestCount} người\n` +
+      `💒 *Sự kiện:* ${formData.attendingEvents}\n` +
+      `📝 *Lời chúc/Ghi chú:* ${guestWish || 'Không có'}\n` +
+      `⏰ *Thời gian:* ${new Date().toLocaleTimeString('vi-VN')} - ${new Date().toLocaleDateString('vi-VN')}`;
+
+    try {
+      const tgRes = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: telegramMessage,
+          parse_mode: 'Markdown',
+        }),
+      });
+      const tgData = await tgRes.json();
+      if (!tgData.ok) {
+        console.warn('Telegram send notice:', tgData);
+        // Fallback: If markdown formatting fails, retry with plain text
+        if (tgData.description && tgData.description.includes("can't parse entities")) {
+          await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chat_id: TELEGRAM_CHAT_ID,
+              text: telegramMessage.replace(/[*_`]/g, ''),
+            }),
+          });
+        }
+      }
+    } catch (tgError) {
+      console.error('Lỗi khi gửi thông báo Telegram:', tgError);
+    }
+
+    // 2. Sync with Google Sheets Apps Script
     try {
       // Build URLSearchParams for dual compatibility (e.parameter & JSON postData)
       const queryParams = new URLSearchParams();
@@ -161,13 +210,6 @@ export const RSVPSection: React.FC = () => {
       id="rsvp"
       className="py-14 sm:py-20 relative bg-[#FEFCF6] overflow-hidden"
     >
-      {/* Refined Corner Ornaments with Waving Flag & Glowing Lotus */}
-      <SectionCornerDecorations
-        corners={['top-left', 'top-right']}
-        variant="flag-and-lotus"
-        className="opacity-80"
-      />
-
       {/* Cute Thank You Toast / Popup */}
       {showSuccessToast && (
         <div className="fixed bottom-6 right-4 sm:right-6 z-50 max-w-md w-[calc(100%-2rem)] bg-white/95 backdrop-blur-md rounded-3xl p-5 shadow-2xl border-2 border-amber-300 text-stone-800 animate-bounce-subtle transition-all">
@@ -199,24 +241,25 @@ export const RSVPSection: React.FC = () => {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header */}
-        <ScrollReveal direction="fly-down" duration={0.45} className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+        <ScrollReveal direction="fly-down" duration={0.45} className="text-center max-w-3xl sm:max-w-4xl mx-auto mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-red-50 to-amber-50 text-red-900 border border-amber-300 shadow-2xs mb-3">
             <WavingVietnameseFlag width={22} height={14} showPole={false} />
-            <span className="text-[11px] sm:text-xs uppercase tracking-widest font-bold font-heading">
+            <span className="text-[11px] sm:text-xs uppercase tracking-widest font-bold font-heading whitespace-nowrap">
               Xác Nhận Tham Dự • Lễ Vu Quy
             </span>
             <GoldenLotusIcon size={16} className="animate-lotus-glow" />
           </div>
 
-          <h2 className="font-heading text-2xl sm:text-4xl md:text-5xl font-bold text-amber-950 tracking-tight mb-3">
-            Bạn Sẽ Tham Dự Cùng Tụi Mình Chứ?
+          <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-bold text-amber-950 tracking-tight mb-3 leading-tight md:whitespace-nowrap text-balance">
+            <span className="inline-block">Bạn Sẽ Tham Dự</span>{' '}
+            <span className="inline-block">Cùng Tụi Mình Chứ?</span>
           </h2>
           <div className="flex items-center justify-center gap-2 mx-auto mb-4">
             <div className="w-16 sm:w-20 h-0.5 bg-gradient-to-r from-transparent to-amber-400" />
             <GoldenLotusIcon size={18} className="text-amber-500 animate-spin-slow" />
             <div className="w-16 sm:w-20 h-0.5 bg-gradient-to-l from-transparent to-amber-400" />
           </div>
-          <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed px-2 font-serif-cormorant italic text-base sm:text-lg">
+          <p className="text-stone-600 text-sm sm:text-base md:text-lg leading-relaxed px-2 font-serif-cormorant italic">
             Sự hiện diện của bạn là niềm vinh hạnh to lớn đối với gia đình nhà gái & cô dâu Thanh Nhi. 
             Xin vui lòng phản hồi trước ngày <strong>15/09/2026</strong> để tụi mình chuẩn bị đón tiếp chu đáo nhất nhé!
           </p>
@@ -226,14 +269,14 @@ export const RSVPSection: React.FC = () => {
           {/* Left Column: RSVP Form */}
           <ScrollReveal direction="fly-left" duration={0.45} delay={0.05} className="lg:col-span-7">
             <div className="bg-gradient-to-b from-amber-50/50 to-white rounded-3xl p-5 sm:p-8 shadow-md border border-amber-200/90 h-full relative overflow-hidden">
-              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5" id="rsvp-form">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5" id="guestForm">
                 {/* Full Name (Họ và tên) */}
                 <div>
-                  <label htmlFor="rsvp-fullName" className="block text-xs font-bold uppercase tracking-wider text-amber-950 mb-1 font-heading">
+                  <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-amber-950 mb-1 font-heading">
                     Họ và Tên Của Bạn <span className="text-red-600">*</span>
                   </label>
                   <input
-                    id="rsvp-fullName"
+                    id="name"
                     type="text"
                     name="fullName"
                     required
@@ -246,11 +289,11 @@ export const RSVPSection: React.FC = () => {
 
                 {/* Phone / Email (Số điện thoại) */}
                 <div>
-                  <label htmlFor="rsvp-phoneOrEmail" className="block text-xs font-bold uppercase tracking-wider text-amber-950 mb-1 font-heading">
+                  <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-wider text-amber-950 mb-1 font-heading">
                     Số Điện Thoại
                   </label>
                   <input
-                    id="rsvp-phoneOrEmail"
+                    id="phone"
                     type="tel"
                     name="phoneOrEmail"
                     value={formData.phoneOrEmail}
@@ -281,11 +324,11 @@ export const RSVPSection: React.FC = () => {
 
                   {/* Số người đi cùng */}
                   <div>
-                    <label htmlFor="rsvp-attendeeCount" className="block text-xs font-bold uppercase tracking-wider text-amber-950 mb-1 font-heading">
+                    <label htmlFor="accompany" className="block text-xs font-bold uppercase tracking-wider text-amber-950 mb-1 font-heading">
                       Số Người Đi Cùng
                     </label>
                     <select
-                      id="rsvp-attendeeCount"
+                      id="accompany"
                       name="attendeeCount"
                       disabled={formData.attendance === 'Không'}
                       value={formData.attendeeCount}
@@ -309,11 +352,11 @@ export const RSVPSection: React.FC = () => {
                 {/* Guest Of */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <div>
-                    <label htmlFor="rsvp-guestOf" className="block text-xs font-bold uppercase tracking-wider text-amber-950 mb-1 font-heading">
+                    <label htmlFor="group" className="block text-xs font-bold uppercase tracking-wider text-amber-950 mb-1 font-heading">
                       Bạn Là Khách Mời Của
                     </label>
                     <select
-                      id="rsvp-guestOf"
+                      id="group"
                       name="guestOf"
                       value={formData.guestOf}
                       onChange={handleInputChange}
@@ -343,13 +386,13 @@ export const RSVPSection: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Wish Message (Lời chúc) */}
+                {/* Wish Message (Lời chúc / Ghi chú) */}
                 <div>
-                  <label htmlFor="rsvp-wishMessage" className="block text-xs font-bold uppercase tracking-wider text-amber-950 mb-1 font-heading">
-                    Lời Chúc Gửi Đến Cô Dâu & Chú Rể
+                  <label htmlFor="note" className="block text-xs font-bold uppercase tracking-wider text-amber-950 mb-1 font-heading">
+                    Lời Chúc / Ghi Chú Gửi Đến Cô Dâu & Chú Rể
                   </label>
                   <textarea
-                    id="rsvp-wishMessage"
+                    id="note"
                     name="wishMessage"
                     rows={3}
                     value={formData.wishMessage}

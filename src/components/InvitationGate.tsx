@@ -118,19 +118,23 @@ export const InvitationGate: React.FC<InvitationGateProps> = ({ onOpen }) => {
 
     // 1. Start playing romantic wedding music immediately on user gesture!
     try {
-      weddingAudio.play();
+      weddingAudio.playTrack(0);
     } catch {
-      // safe fallback
+      try {
+        weddingAudio.play();
+      } catch {
+        // safe fallback
+      }
     }
 
     // 2. Launch festive fireworks and celebration confetti
     triggerWeddingFireworks();
 
-    // 3. Complete opening transition swiftly
+    // 3. Complete opening transition after image floats up and seamlessly merges into hero
     setTimeout(() => {
       setIsDismissed(true);
       onOpen();
-    }, 380);
+    }, 650);
   };
 
   if (isDismissed) return null;
@@ -138,11 +142,11 @@ export const InvitationGate: React.FC<InvitationGateProps> = ({ onOpen }) => {
   return (
     <div 
       id="wedding-invitation-gate"
-      className={`fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-hidden transition-all duration-400 ease-out ${
-        isOpening ? 'opacity-0 pointer-events-none scale-105' : 'opacity-100'
+      className={`fixed inset-0 w-full h-[100dvh] z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto transition-all duration-700 ease-out ${
+        isOpening ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      {/* Background Image with Dark Romantic Blur Overlay */}
+      {/* Background Image with Dark Romantic Blur Overlay that unblurs and pops on click */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <img
           src={WEDDING_CONFIG.bgImage || WEDDING_CONFIG.heroImage}
@@ -150,11 +154,23 @@ export const InvitationGate: React.FC<InvitationGateProps> = ({ onOpen }) => {
             e.currentTarget.src = WEDDING_CONFIG.heroImage;
           }}
           alt="Trương Minh Cảnh & Nguyễn Đàm Thanh Nhi"
-          className="w-full h-full object-cover object-center filter blur-[2px] scale-105"
+          className={`w-full h-full object-cover object-center transition-all duration-700 ease-out ${
+            isOpening 
+              ? 'filter-none scale-110 brightness-115' 
+              : 'filter blur-[2px] scale-105'
+          }`}
         />
-        {/* Deep Ruby & Dark Overlay for maximum contrast */}
-        <div className="absolute inset-0 bg-black/65 backdrop-blur-[2px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#4A0A0E]/80 via-black/50 to-[#35070A]/85" />
+        {/* Deep Ruby & Dark Overlay for maximum contrast - pulls back on click */}
+        <div 
+          className={`absolute inset-0 bg-black/65 backdrop-blur-[2px] transition-opacity duration-700 ${
+            isOpening ? 'opacity-15' : 'opacity-100'
+          }`} 
+        />
+        <div 
+          className={`absolute inset-0 bg-gradient-to-b from-[#4A0A0E]/80 via-black/50 to-[#35070A]/85 transition-opacity duration-700 ${
+            isOpening ? 'opacity-10' : 'opacity-100'
+          }`} 
+        />
       </div>
 
       {/* Soft Ambient Gold Glow */}
@@ -169,12 +185,12 @@ export const InvitationGate: React.FC<InvitationGateProps> = ({ onOpen }) => {
         <div className="absolute bottom-10 right-8 text-yellow-300/60 text-xs">✧</div>
       </div>
 
-      {/* Main Luxury Envelope Container - Compact Viewport Fit */}
-      <div className="relative w-full max-w-sm sm:max-w-md mx-auto z-10 flex flex-col justify-center max-h-[98vh]">
+      {/* Main Luxury Envelope Container - Symmetrically Centered in Viewport */}
+      <div className="relative w-full max-w-[340px] min-[380px]:max-w-[360px] sm:max-w-md mx-auto my-auto z-10 flex flex-col items-center justify-center">
         {/* 3D Wedding Card Wrapper - Deep Ruby Red Palette matching reference image */}
         <div 
           onClick={handleOpenInvitation}
-          className={`relative bg-gradient-to-b from-[#8C161D] via-[#7F1017] to-[#6A0C12] rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.6)] border-2 border-amber-300/60 cursor-pointer transform transition-all duration-500 hover:scale-[1.01] hover:shadow-[0_25px_60px_rgba(185,28,28,0.4)] group text-white select-none ${
+          className={`w-full relative bg-gradient-to-b from-[#8C161D] via-[#7F1017] to-[#6A0C12] rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-[0_12px_40px_rgba(0,0,0,0.6)] border-2 border-amber-300/60 cursor-pointer transform transition-all duration-500 hover:scale-[1.01] hover:shadow-[0_16px_45px_rgba(185,28,28,0.4)] group text-white select-none ${
             isOpening ? 'rotate-x-12 translate-y-3' : ''
           }`}
         >
@@ -188,12 +204,12 @@ export const InvitationGate: React.FC<InvitationGateProps> = ({ onOpen }) => {
           <div className="absolute bottom-2.5 left-2.5 text-amber-200/50 font-serif text-[10px] sm:text-xs pointer-events-none">❖</div>
           <div className="absolute bottom-2.5 right-2.5 text-amber-200/50 font-serif text-[10px] sm:text-xs pointer-events-none">❖</div>
 
-          <div className="text-center relative z-10 space-y-2.5 sm:space-y-3.5">
-            {/* Header: LỄ VU QUY */}
-            <div className="pt-0.5">
+          <div className="text-center relative z-10 flex flex-col items-center space-y-2.5 sm:space-y-3.5">
+            {/* Header: LỄ VU QUY - Perfectly Symmetrical with letter spacing compensation */}
+            <div className="pt-0.5 w-full flex items-center justify-center">
               <div className="inline-flex items-center justify-center gap-2">
                 <span className="h-[1px] w-6 sm:w-8 bg-amber-300/50" />
-                <h3 className="font-heading uppercase tracking-[0.25em] text-amber-200 text-sm sm:text-base font-bold drop-shadow-xs">
+                <h3 className="font-heading uppercase tracking-[0.25em] pl-[0.25em] text-amber-200 text-sm sm:text-base font-bold drop-shadow-xs">
                   LỄ VU QUY
                 </h3>
                 <span className="h-[1px] w-6 sm:w-8 bg-amber-300/50" />
@@ -201,49 +217,54 @@ export const InvitationGate: React.FC<InvitationGateProps> = ({ onOpen }) => {
             </div>
 
             {/* Stylized Double Happiness (Song Hỷ 囍) Bride & Groom Icon */}
-            <div className="py-0 transform group-hover:scale-105 transition-transform duration-300 flex justify-center">
-              <CuteSongHyIcon size={56} className="text-white drop-shadow-md" />
+            <div className="py-0 w-full flex justify-center items-center transform group-hover:scale-105 transition-transform duration-300">
+              <CuteSongHyIcon size={56} className="text-white drop-shadow-md mx-auto" />
             </div>
 
             {/* Couple Names - Script Calligraphy */}
-            <div>
-              <h1 className="font-script text-2xl sm:text-3xl md:text-4xl text-white tracking-wide leading-tight drop-shadow-md">
-                <span>Thanh Nhi</span>
-                <span className="font-serif italic text-amber-200 text-xl sm:text-2xl mx-1.5 font-normal">&</span>
-                <span>Minh Cảnh</span>
+            <div className="w-full text-center">
+              <h1 className="font-script text-2xl sm:text-3xl md:text-4xl text-white tracking-wide leading-tight drop-shadow-md text-center">
+                <span className="inline-block whitespace-nowrap">Thanh Nhi</span>
+                <span className="inline-block font-serif italic text-amber-200 text-xl sm:text-2xl mx-1.5 font-normal">&</span>
+                <span className="inline-block whitespace-nowrap">Minh Cảnh</span>
               </h1>
             </div>
 
-            {/* Wedding Date */}
-            <div className="text-center">
-              <p className="font-sans text-[11px] sm:text-xs uppercase tracking-[0.16em] text-amber-100 font-semibold">
+            {/* Wedding Date - Symmetrically Compensated */}
+            <div className="text-center w-full">
+              <p className="font-sans text-[11px] sm:text-xs uppercase tracking-[0.16em] pl-[0.16em] text-amber-100 font-semibold whitespace-nowrap">
                 CHỦ NHẬT, 27. 09. 2026
               </p>
-              <p className="text-[10px] sm:text-[11px] text-amber-200/80 font-serif italic">
+              <p className="text-[10px] sm:text-[11px] text-amber-200/80 font-serif italic whitespace-nowrap mt-0.5">
                 (Nhằm ngày 17 tháng 08 năm Bính Ngọ)
               </p>
             </div>
 
-            {/* Địa điểm (Location Details) */}
-            <div className="bg-black/25 backdrop-blur-xs border border-white/15 rounded-xl py-2 px-3 text-white text-[11px] sm:text-xs shadow-inner">
-              <div className="flex items-center justify-center gap-1.5 text-stone-100 font-light leading-snug">
-                <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-                <span>{mainEvent.locationName}: {mainEvent.address}</span>
+            {/* Địa điểm (Location Details) - 100% Symmetrical Box */}
+            <div className="bg-black/30 backdrop-blur-xs border border-white/20 rounded-xl py-2 px-3 text-white shadow-inner w-full">
+              <div className="flex flex-col items-center justify-center gap-0.5 text-center">
+                <div className="inline-flex items-center justify-center gap-1.5 text-amber-200 font-medium text-xs">
+                  <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                  <span className="whitespace-nowrap">{mainEvent.locationName}</span>
+                </div>
+                <p className="text-stone-200 text-[10.5px] sm:text-xs font-light leading-snug">
+                  {mainEvent.address}
+                </p>
               </div>
             </div>
 
             {/* Action Prompt Button - "Chạm để mở lời yêu thương" */}
-            <div className="pt-1">
+            <div className="pt-1 w-full">
               <button
                 id="btn-open-wedding-card"
                 type="button"
-                className="w-full py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 hover:from-amber-400 hover:to-yellow-300 text-stone-950 font-bold text-xs sm:text-sm tracking-wide shadow-[0_8px_20px_rgba(0,0,0,0.3)] flex items-center justify-center gap-2 border border-amber-100 transition-all transform group-hover:-translate-y-0.5 active:scale-98"
+                className="w-full py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 hover:from-amber-400 hover:to-yellow-300 text-stone-950 font-bold text-xs sm:text-sm tracking-wide shadow-[0_4px_16px_rgba(0,0,0,0.35)] flex items-center justify-center gap-2 border border-amber-100 transition-all transform group-hover:-translate-y-0.5 active:scale-98"
               >
-                <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-600 fill-rose-600 group-hover:scale-110 transition-transform animate-pulse" />
-                <span className="font-semibold uppercase tracking-wider text-stone-900 text-[11px] sm:text-xs">
+                <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-600 fill-rose-600 group-hover:scale-110 transition-transform animate-pulse shrink-0" />
+                <span className="font-semibold uppercase tracking-wider pl-[0.05em] text-stone-900 text-[11px] sm:text-xs whitespace-nowrap">
                   Chạm để mở lời yêu thương
                 </span>
-                <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-stone-900 group-hover:translate-x-1 transition-transform" />
+                <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-stone-900 group-hover:translate-x-1 transition-transform shrink-0" />
               </button>
             </div>
           </div>

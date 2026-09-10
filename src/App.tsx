@@ -13,33 +13,35 @@ import { FloatingMobileBar } from './components/FloatingMobileBar';
 import { FloatingMusicPlayer } from './components/FloatingMusicPlayer';
 import { SectionTransition } from './components/SectionTransition';
 import { weddingAudio } from './components/AudioEngine';
-import { WEDDING_CONFIG, GALLERY_PHOTOS } from './data/weddingData';
+import { WEDDING_CONFIG, GALLERY_PHOTOS, STORY_MILESTONES } from './data/weddingData';
 import { preloadImages } from './utils/imageOptimizer';
 
 export default function App() {
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const [isInvitationGateActive, setIsInvitationGateActive] = useState(true);
 
-  // Background High-Speed Preloading of All Wedding Assets
+  // Background High-Speed Preloading of All Wedding Assets & Audio
   useEffect(() => {
-    // 1. High priority: Hero, Cover, Couple avatars
+    // 1. High priority: Hero, Cover, Couple avatars & QR images
     const criticalImages = [
       WEDDING_CONFIG.bgImage,
       WEDDING_CONFIG.heroImage,
       WEDDING_CONFIG.coupleCoverImage,
       WEDDING_CONFIG.groom.avatar,
       WEDDING_CONFIG.bride.avatar,
+      WEDDING_CONFIG.groom.bank.qrCodeUrl,
+      WEDDING_CONFIG.bride.bank.qrCodeUrl,
     ].filter(Boolean) as string[];
 
     preloadImages(criticalImages, 'high');
 
-    // 2. Medium priority: Preload all gallery photos after a tiny delay so network bandwidth isn't congested
-    const timer = setTimeout(() => {
-      const galleryUrls = GALLERY_PHOTOS.map((p) => p.imageUrl).filter(Boolean);
-      preloadImages(galleryUrls, 'low');
-    }, 400);
+    // 2. Preload all gallery and story photos immediately so scroll is ultra smooth
+    const secondaryImages = [
+      ...GALLERY_PHOTOS.map((p) => p.imageUrl),
+      ...STORY_MILESTONES.map((s) => s.image),
+    ].filter(Boolean) as string[];
 
-    return () => clearTimeout(timer);
+    preloadImages(secondaryImages, 'low');
   }, []);
 
   useEffect(() => {
@@ -77,22 +79,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FEFCF7]/95 text-stone-800 flex flex-col relative selection:bg-amber-300 selection:text-stone-900 pb-16 sm:pb-0">
-      {/* Fixed Fullscreen Background Image with Dimming Semi-Transparent Black Layer */}
-      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-        <img
-          src={WEDDING_CONFIG.bgImage || WEDDING_CONFIG.heroImage}
-          onError={(e) => {
-            e.currentTarget.src = WEDDING_CONFIG.heroImage;
-          }}
-          alt="Hình Nền Đám Cưới Minh Cảnh & Thanh Nhi"
-          className="w-full h-full object-cover object-center filter blur-[1px] scale-105"
-        />
-        {/* Lớp layout màu đen trong suốt phía trước để hình mờ dịu, sang trọng */}
-        <div className="absolute inset-0 bg-black/65 backdrop-blur-[2px]" />
-        <div className="absolute inset-0 bg-stone-950/40" />
-      </div>
-
+    <div className="min-h-screen bg-[#FEFCF7] text-stone-800 flex flex-col relative selection:bg-amber-300 selection:text-stone-900 pb-16 sm:pb-0">
       {/* 1. Interactive Royal Wedding Invitation Gate (Thiệp Mời Cưới Trực Quan Đầu Tiên) */}
       {isInvitationGateActive && (
         <InvitationGate onOpen={handleCloseInvitationGate} />
@@ -115,8 +102,8 @@ export default function App() {
           onOpenInvitation={handleOpenInvitationGate}
         />
 
-        {/* Transition 1: Lotus Glow */}
-        <SectionTransition variant="lotus-glow" className="bg-gradient-to-b from-stone-950/80 via-[#FEFDF9] to-[#FEFDF9]" />
+        {/* Transition 1: Seamless Silk Bridge from Dark Hero to Warm Ivory White */}
+        <SectionTransition variant="hero-to-white" />
 
         {/* 2. Wedding Countdown Section */}
         <CountdownSection />

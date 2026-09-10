@@ -27,25 +27,19 @@ export const FAQSection: React.FC<FAQSectionProps> = () => {
       id="faq"
       className="py-14 sm:py-20 relative bg-[#FEFCF6] overflow-hidden"
     >
-      {/* Refined Corner Ornaments with Waving Flag & Glowing Lotus */}
-      <SectionCornerDecorations
-        corners={['top-left', 'top-right']}
-        variant="flag-and-lotus"
-        className="opacity-75"
-      />
-
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header with Scroll Reveal */}
         <ScrollReveal direction="up" className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-1.5 text-amber-800 mb-2">
-            <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
-            <span className="text-xs uppercase tracking-widest font-semibold font-heading">
+            <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500 shrink-0" />
+            <span className="text-xs uppercase tracking-widest font-semibold font-heading whitespace-nowrap">
               Thông Tin Khách Mời Cần Biết
             </span>
-            <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
+            <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500 shrink-0" />
           </div>
-          <h2 className="font-heading text-2xl sm:text-4xl md:text-5xl font-bold text-amber-950 tracking-tight mb-3">
-            Giải Đáp Thắc Mắc (FAQ)
+          <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-bold text-amber-950 tracking-tight mb-3 leading-tight md:whitespace-nowrap text-balance">
+            <span className="inline-block whitespace-nowrap">Giải Đáp Thắc Mắc</span>{' '}
+            <span className="inline-block whitespace-nowrap">(FAQ)</span>
           </h2>
           <div className="w-16 sm:w-20 h-0.5 bg-gradient-to-r from-amber-400 to-yellow-400 mx-auto mb-4" />
           <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed font-serif-cormorant italic text-base sm:text-lg">

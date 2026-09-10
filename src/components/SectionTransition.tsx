@@ -4,7 +4,7 @@ import { GoldenLotusIcon } from './PatrioticEmblem';
 import { Heart, Sparkles } from 'lucide-react';
 
 interface SectionTransitionProps {
-  variant?: 'gold-crest' | 'lotus-glow' | 'curved-wave' | 'double-hairline';
+  variant?: 'gold-crest' | 'lotus-glow' | 'curved-wave' | 'double-hairline' | 'hero-to-white';
   className?: string;
 }
 
@@ -12,6 +12,38 @@ export const SectionTransition: React.FC<SectionTransitionProps> = ({
   variant = 'gold-crest',
   className = '',
 }) => {
+  if (variant === 'hero-to-white') {
+    return (
+      <div className={`relative w-full overflow-hidden pointer-events-none select-none bg-[#FEFCF7] ${className}`}>
+        {/* Soft Ivory Lotus Crest Bridge seamlessly bridging Hero into Countdown */}
+        <div className="w-full py-4 sm:py-6 flex flex-col items-center justify-center relative">
+          {/* Subtle Ambient Golden Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 sm:w-64 h-12 bg-amber-400/15 blur-2xl rounded-full" />
+
+          {/* Elegant Golden Lotus Crest Bridge */}
+          <div className="w-full max-w-md sm:max-w-lg px-6 flex items-center justify-center gap-3 relative z-10">
+            <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-amber-300/50 to-amber-400/80" />
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="px-3.5 py-1.5 rounded-full bg-white/95 border border-amber-300/70 shadow-sm flex items-center gap-2"
+            >
+              <Sparkles className="w-3 h-3 text-amber-500 animate-pulse" />
+              <GoldenLotusIcon size={20} className="animate-lotus-glow" />
+              <span className="text-[10px] sm:text-xs font-heading uppercase tracking-widest text-amber-900 font-semibold">
+                Thanh Nhi • Minh Cảnh
+              </span>
+              <Sparkles className="w-3 h-3 text-amber-500 animate-pulse" />
+            </motion.div>
+            <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent via-amber-300/50 to-amber-400/80" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (variant === 'curved-wave') {
     return (
       <div className={`relative w-full overflow-hidden leading-none py-2 pointer-events-none select-none ${className}`}>
@@ -79,13 +111,13 @@ export const SectionTransition: React.FC<SectionTransitionProps> = ({
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="mx-3 sm:mx-5 flex items-center gap-2 px-3 py-1 rounded-full bg-stone-900/35 border border-amber-300/40 backdrop-blur-xs shadow-xs"
       >
-        <Sparkles className="w-3 h-3 text-amber-300" />
-        <Heart className="w-3 h-3 text-rose-400 fill-rose-400 animate-pulse" />
-        <span className="text-[10px] sm:text-xs font-heading uppercase tracking-widest text-amber-200/90 font-medium">
-          Trương Minh Cảnh • Nguyễn Đàm Thanh Nhi
+        <Sparkles className="w-3 h-3 text-amber-300 shrink-0" />
+        <Heart className="w-3 h-3 text-rose-400 fill-rose-400 animate-pulse shrink-0" />
+        <span className="text-[10px] sm:text-xs font-heading uppercase tracking-widest text-amber-200/90 font-medium whitespace-nowrap">
+          <span className="hidden sm:inline">Nguyễn Đàm </span>Thanh Nhi • <span className="hidden sm:inline">Trương </span>Minh Cảnh
         </span>
-        <Heart className="w-3 h-3 text-rose-400 fill-rose-400 animate-pulse" />
-        <Sparkles className="w-3 h-3 text-amber-300" />
+        <Heart className="w-3 h-3 text-rose-400 fill-rose-400 animate-pulse shrink-0" />
+        <Sparkles className="w-3 h-3 text-amber-300 shrink-0" />
       </motion.div>
 
       {/* Right Hairline */}

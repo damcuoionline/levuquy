@@ -15,20 +15,13 @@ export const Footer: React.FC<FooterProps> = () => {
 
   return (
     <footer id="wedding-footer" className="bg-[#FAF7EE] text-stone-800 pt-16 pb-20 sm:pb-12 relative overflow-hidden border-t-2 border-amber-300/80">
-      {/* Refined Corner Ornaments with Waving Flag & Glowing Lotus */}
-      <SectionCornerDecorations
-        corners={['top-left', 'top-right']}
-        variant="flag-and-lotus"
-        className="opacity-75"
-      />
-
       {/* Decorative Ornaments */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
         <ScrollReveal direction="fly-down" duration={0.45} className="text-center max-w-2xl mx-auto mb-10">
           {/* Couple Monogram with Lotus Emblem */}
           <div className="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4">
             <div className="w-full h-full rounded-full border-2 border-amber-400 flex items-center justify-center bg-white shadow-md">
-              <span className="font-heading text-lg sm:text-xl font-bold text-amber-900">C & N</span>
+              <span className="font-heading text-lg sm:text-xl font-bold text-amber-900">N & C</span>
             </div>
             <div className="absolute -top-2 -right-2">
               <GoldenLotusIcon size={24} className="animate-lotus-glow" />
@@ -37,16 +30,18 @@ export const Footer: React.FC<FooterProps> = () => {
 
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-900 border border-amber-300 shadow-2xs mb-3">
             <WavingVietnameseFlag width={20} height={13} showPole={false} />
-            <span className="text-xs uppercase tracking-widest font-bold font-heading">
+            <span className="text-[11px] sm:text-xs uppercase tracking-widest font-bold font-heading whitespace-nowrap">
               Trăm Năm Tình Viên Mãn • Nghĩa Vợ Chồng Sắt Son
             </span>
           </div>
 
-          <h3 className="font-heading text-2xl sm:text-3xl font-bold text-amber-950 mb-2">
-            Trương Minh Cảnh & Nguyễn Đàm Thanh Nhi
+          <h3 className="font-heading text-lg sm:text-2xl md:text-3xl font-bold text-amber-950 mb-2 leading-snug text-balance">
+            <span className="inline-block whitespace-nowrap">Nguyễn Đàm Thanh Nhi</span>{' '}
+            <span className="inline-block text-amber-700 font-script text-xl sm:text-2xl mx-1">&amp;</span>{' '}
+            <span className="inline-block whitespace-nowrap">Trương Minh Cảnh</span>
           </h3>
 
-          <p className="text-xs sm:text-sm text-red-800 font-heading tracking-widest uppercase mb-3 font-semibold">
+          <p className="text-xs sm:text-sm text-red-800 font-heading tracking-widest uppercase mb-3 font-semibold whitespace-nowrap">
             27 . 09 . 2026 • Đắk Lắk • Việt Nam
           </p>
 
@@ -58,7 +53,7 @@ export const Footer: React.FC<FooterProps> = () => {
 
           {/* Sincere Thank You Message */}
           <p className="font-serif-cormorant text-base sm:text-lg italic text-stone-600 leading-relaxed max-w-lg mx-auto">
-            “Cảm ơn bạn đã luôn đồng hành, sẻ chia và dành trọn tình cảm yêu thương cho Trương Minh Cảnh & Nguyễn Đàm Thanh Nhi!”
+            “Cảm ơn bạn đã luôn đồng hành, sẻ chia và dành trọn tình cảm yêu thương cho <span className="whitespace-nowrap">Thanh Nhi & Minh Cảnh</span> trong ngày Lễ Vu Quy trọng đại!”
           </p>
         </ScrollReveal>
 

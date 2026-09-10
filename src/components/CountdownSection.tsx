@@ -42,7 +42,7 @@ export const CountdownSection: React.FC = () => {
   }, []);
 
   const handleAddToCalendar = () => {
-    const title = encodeURIComponent(`Lễ Vu Quy & Tiệc Mừng: Minh Cảnh & Thanh Nhi`);
+    const title = encodeURIComponent(`Lễ Vu Quy & Tiệc Mừng: Thanh Nhi & Minh Cảnh`);
     const details = encodeURIComponent(
       `Chào mừng quý quan khách đến chung vui Lễ Vu Quy cùng gia đình nhà gái và cô dâu Thanh Nhi! Rất hân hạnh được đón tiếp bạn.`
     );
@@ -66,13 +66,6 @@ export const CountdownSection: React.FC = () => {
       id="countdown"
       className="py-14 sm:py-20 relative bg-[#FEFDF9] overflow-hidden"
     >
-      {/* Refined Corner Ornaments with Waving Flag & Glowing Lotus */}
-      <SectionCornerDecorations
-        corners={['top-left', 'top-right']}
-        variant="flag-and-lotus"
-        className="opacity-80"
-      />
-
       {/* Subtle Lotus Background Watermark */}
       <div className="absolute -top-10 -right-10 pointer-events-none opacity-10">
         <GoldenLotusIcon size={240} />
@@ -83,17 +76,18 @@ export const CountdownSection: React.FC = () => {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header with Scroll Reveal */}
-        <ScrollReveal direction="fly-down" duration={0.45} className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+        <ScrollReveal direction="fly-down" duration={0.45} className="text-center max-w-3xl sm:max-w-4xl mx-auto mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-50 border border-red-200/80 text-red-900 mb-3 shadow-xs">
             <WavingVietnameseFlag width={22} height={14} showPole={false} />
-            <span className="text-[11px] uppercase tracking-widest font-bold">
+            <span className="text-[11px] uppercase tracking-widest font-bold whitespace-nowrap">
               Đếm Ngược Ngày Chung Đôi
             </span>
             <GoldenLotusIcon size={14} className="animate-lotus-glow" />
           </div>
 
-          <h2 className="font-heading text-2xl sm:text-4xl md:text-5xl font-bold text-amber-950 tracking-tight mb-3">
-            Thời Gian Chờ Đón Ngày Hạnh Phúc
+          <h2 className="font-heading text-2xl sm:text-3xl md:text-[42px] font-bold text-amber-950 tracking-tight mb-3 leading-tight md:whitespace-nowrap text-balance">
+            <span className="inline-block">Thời Gian Chờ Đón</span>{' '}
+            <span className="inline-block">Ngày Hạnh Phúc</span>
           </h2>
 
           <div className="flex items-center justify-center gap-2 mx-auto mb-4">
@@ -102,7 +96,7 @@ export const CountdownSection: React.FC = () => {
             <div className="w-12 sm:w-16 h-0.5 bg-gradient-to-l from-transparent to-amber-400" />
           </div>
 
-          <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed px-2 font-serif-cormorant italic text-base sm:text-lg">
+          <p className="text-stone-600 text-sm sm:text-base md:text-lg leading-relaxed px-2 font-serif-cormorant italic">
             Từng giây phút trôi qua đều là sự mong đợi và hạnh phúc ngập tràn cho ngày <strong>27.09.2026</strong>.
           </p>
         </ScrollReveal>
@@ -143,12 +137,12 @@ export const CountdownSection: React.FC = () => {
               </div>
               <div>
                 <div className="flex items-center gap-2 justify-center sm:justify-start">
-                  <h4 className="font-heading text-sm sm:text-base font-bold text-amber-950">
+                  <h4 className="font-heading text-sm sm:text-base font-bold text-amber-950 whitespace-nowrap">
                     Chủ Nhật, 27 Tháng 09 Năm 2026
                   </h4>
-                  <GoldenLotusIcon size={14} className="text-amber-600" />
+                  <GoldenLotusIcon size={14} className="text-amber-600 shrink-0" />
                 </div>
-                <p className="text-xs text-amber-900 font-medium">
+                <p className="text-xs text-amber-900 font-medium whitespace-nowrap">
                   (Nhằm ngày 17 tháng 08 năm Bính Ngọ • Lễ Vu Quy)
                 </p>
               </div>
@@ -159,8 +153,8 @@ export const CountdownSection: React.FC = () => {
               id="add-to-calendar-btn"
               className="w-full sm:w-auto px-5 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 hover:from-amber-500 hover:to-yellow-400 text-stone-950 text-xs sm:text-sm font-bold tracking-wide transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-2 shrink-0 border border-amber-200 cursor-pointer"
             >
-              <Calendar className="w-4 h-4 text-stone-950" />
-              <span>Lưu Lịch Vào Google Calendar</span>
+              <Calendar className="w-4 h-4 text-stone-950 shrink-0" />
+              <span className="whitespace-nowrap">Lưu Lịch Vào Google Calendar</span>
             </button>
           </div>
         </ScrollReveal>

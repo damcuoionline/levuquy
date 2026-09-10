@@ -21,6 +21,8 @@ export interface EventDetail {
   };
 }
 
+export type PhotoFrameStyle = 'royal-gold' | 'polaroid' | 'film-strip' | 'editorial' | 'floating-glass' | 'postcard';
+
 export interface GalleryPhoto {
   id: string;
   title: string;
@@ -28,6 +30,11 @@ export interface GalleryPhoto {
   category: 'all' | 'prewedding' | 'studio' | 'moments';
   imageUrl: string;
   thumbnailUrl?: string;
+  orientation?: 'portrait' | 'landscape';
+  focalPoint?: string; // e.g. 'center 20%'
+  defaultStyle?: PhotoFrameStyle;
+  dateTag?: string;
+  quote?: string;
 }
 
 export interface StoryMilestone {
@@ -154,7 +161,7 @@ export const WEDDING_EVENTS: EventDetail[] = [
       { time: "11:00", activity: "Khai tiệc thân mật mừng Lễ Vu Quy tại Tư Gia Nhà Gái", icon: "Utensils" }
     ],
     calendarData: {
-      title: "Lễ Vu Quy Nhà Gái: Trương Minh Cảnh & Nguyễn Đàm Thanh Nhi",
+      title: "Lễ Vu Quy Nhà Gái: Nguyễn Đàm Thanh Nhi & Trương Minh Cảnh",
       description: "Lễ Vu Quy trang trọng tại Tư Gia Nhà Gái. Địa chỉ: Chợ tình EaTam, xã Tam Giang, tỉnh Đắk Lắk. Trân trọng kính mời quý khách!",
       location: "Chợ tình EaTam, xã Tam Giang, tỉnh Đắk Lắk",
       startTime: "20260927T020000Z", // 09:00 UTC+7 is 02:00 UTC
@@ -181,7 +188,7 @@ export const WEDDING_EVENTS: EventDetail[] = [
       { time: "12:45", activity: "Cảm ơn quý quan khách & Tiễn khách thân mật", icon: "Sparkles" }
     ],
     calendarData: {
-      title: "Tiệc Mừng Vu Quy Nhà Gái: Minh Cảnh & Thanh Nhi",
+      title: "Tiệc Mừng Vu Quy Nhà Gái: Thanh Nhi & Minh Cảnh",
       description: "Tiệc cưới thân mật mừng Vu Quy tại Tư Gia Nhà Gái (Chợ tình EaTam, xã Tam Giang, tỉnh Đắk Lắk).",
       location: "Chợ tình EaTam, xã Tam Giang, tỉnh Đắk Lắk",
       startTime: "20260927T033000Z", // 10:30 UTC+7 is 03:30 UTC
@@ -196,91 +203,156 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: "Phông Nền Hạnh Phúc",
     caption: "Khoảnh khắc thiêng liêng rạng rỡ của Minh Cảnh & Thanh Nhi trong ngày trọng đại.",
     category: "prewedding",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00130%20phong.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00130%20phong.JPG",
+    orientation: "portrait",
+    focalPoint: "center 22%",
+    defaultStyle: "royal-gold",
+    dateTag: "27.09.2026",
+    quote: "A day filled with gold and grace"
   },
   {
     id: "p2",
     title: "Nét Đẹp Duyên Dáng",
     caption: "Tình yêu dịu dàng và ánh mắt đong đầy yêu thương.",
     category: "prewedding",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09971%20phong.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09971%20phong.JPG",
+    orientation: "portrait",
+    focalPoint: "center 20%",
+    defaultStyle: "polaroid",
+    dateTag: "Đà Nẵng, 2026",
+    quote: "Chỉ một ánh nhìn say cả đời"
   },
   {
     id: "p3",
     title: "Nụ Cười Rạng Rỡ",
     caption: "Mỗi nụ cười đều là một niềm hạnh phúc vô giá khi được ở bên nhau.",
     category: "studio",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00174.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00174.JPG",
+    orientation: "portrait",
+    focalPoint: "center 22%",
+    defaultStyle: "film-strip",
+    dateTag: "FRAME #03 • KODAK PORTRA",
+    quote: "Every smile tells our story"
   },
   {
     id: "p4",
     title: "Tay Trong Tay",
     caption: "Nắm chặt bàn tay cùng nhau đi qua mọi thăng trầm của cuộc đời.",
     category: "studio",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00190.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00190.JPG",
+    orientation: "portrait",
+    focalPoint: "center 25%",
+    defaultStyle: "editorial",
+    dateTag: "VOGUE BRIDE • ISSUE 01",
+    quote: "Timeless Elegance & Modern Romance"
   },
   {
     id: "p5",
     title: "Ngọt Ngào Bên Nhau",
     caption: "Hạnh phúc đơn giản là mỗi ngày đều có em đồng hành.",
     category: "moments",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00280.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00280.JPG",
+    orientation: "portrait",
+    focalPoint: "center 20%",
+    defaultStyle: "floating-glass",
+    dateTag: "Pure Crystal Romance",
+    quote: "Hạnh phúc bình dị trong từng ánh mắt"
   },
   {
     id: "p6",
     title: "Ánh Mắt Yêu Thương",
     caption: "Tình yêu đong đầy trong từng cử chỉ ân cần, chu đáo.",
     category: "studio",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00438.jpg"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00438.jpg",
+    orientation: "portrait",
+    focalPoint: "center 20%",
+    defaultStyle: "postcard",
+    dateTag: "Gửi từ tương lai yêu thương",
+    quote: "Hành trình trăm năm bắt đầu từ hôm nay"
   },
   {
     id: "p7",
     title: "Nàng Dâu Xinh Đẹp",
     caption: "Vẻ đẹp thuần khiết, rạng ngời của Thanh Nhi trong ngày chung đôi.",
     category: "studio",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00553.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00553.JPG",
+    orientation: "portrait",
+    focalPoint: "center 20%",
+    defaultStyle: "editorial",
+    dateTag: "HAUTE COUTURE WEDDING",
+    quote: "The Radiant Bride • Thanh Nhi"
   },
   {
     id: "p8",
     title: "Hẹn Ước Trăm Năm",
     caption: "Lời nguyện ước bền lâu, thủy chung đến trọn cuộc đời.",
     category: "prewedding",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00591.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC00591.JPG",
+    orientation: "portrait",
+    focalPoint: "center 22%",
+    defaultStyle: "royal-gold",
+    dateTag: "27.09.2026",
+    quote: "Vĩnh kết đồng tâm, trăm năm hòa hợp"
   },
   {
     id: "p9",
     title: "Ánh Nhìn Định Mệnh",
     caption: "Khoảnh khắc thiêng liêng nhất khi hai trái tim hòa cùng một nhịp đập.",
     category: "prewedding",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC06745.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC06745.JPG",
+    orientation: "landscape",
+    focalPoint: "center 30%",
+    defaultStyle: "film-strip",
+    dateTag: "CINEMA 35MM PANORAMIC",
+    quote: "A Cinematic Wedding Journey"
   },
   {
     id: "p10",
     title: "Bình Yên Bên Anh",
     caption: "Chỉ cần bên nhau, mọi giông bão đều dừng lại sau cánh cửa.",
     category: "moments",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09855.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09855.JPG",
+    orientation: "portrait",
+    focalPoint: "center 20%",
+    defaultStyle: "polaroid",
+    dateTag: "Kỷ niệm ngày chung đôi",
+    quote: "Bên nhau trọn vẹn từng khoảnh khắc"
   },
   {
     id: "p11",
     title: "Hạnh Phúc Ngập Tràn",
     caption: "Những khoảnh khắc chân thật, ngọt ngào và đáng nhớ nhất.",
     category: "moments",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09895.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09895.JPG",
+    orientation: "portrait",
+    focalPoint: "center 22%",
+    defaultStyle: "postcard",
+    dateTag: "Airmail Postcard 2026",
+    quote: "Thương gửi những người thân yêu"
   },
   {
     id: "p12",
     title: "Cùng Nhìn Về Một Hướng",
     caption: "Hành trình mới mở ra với biết bao ước mơ và hy vọng xây đắp tổ ấm.",
     category: "prewedding",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09904.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09904.JPG",
+    orientation: "portrait",
+    focalPoint: "center 20%",
+    defaultStyle: "floating-glass",
+    dateTag: "Infinity & Beyond",
+    quote: "Chung một mái nhà, vẹn một chữ duyên"
   },
   {
     id: "p13",
     title: "Ngày Chung Đôi",
     caption: "Minh Cảnh & Thanh Nhi hân hoan bước vào ngày trọng đại nhất cuộc đời.",
     category: "studio",
-    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09963.JPG"
+    imageUrl: "https://raw.githubusercontent.com/hoaingotiengtrung/filenhac/main/DSC09963.JPG",
+    orientation: "portrait",
+    focalPoint: "center 20%",
+    defaultStyle: "royal-gold",
+    dateTag: "Lễ Vu Quy 2026",
+    quote: "Trân trọng kính báo & tri ân"
   }
 ];
 

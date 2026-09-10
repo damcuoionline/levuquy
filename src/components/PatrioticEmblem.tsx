@@ -337,30 +337,14 @@ export const TraditionalCornerEmblem: React.FC<{
 };
 
 /**
- * Reusable Section Corner Decorations (Bộ Khung Họa Tiết Góc Quốc Kỳ & Hoa Sen)
- * Automatically places refined decorative motifs on corners of main sections
+ * Reusable Section Corner Decorations (Removed as requested by user for cleaner visual design)
  */
 export const SectionCornerDecorations: React.FC<{
   corners?: ('top-left' | 'top-right' | 'bottom-left' | 'bottom-right')[];
   variant?: 'lotus-only' | 'flag-and-lotus' | 'luxury-brass';
   className?: string;
-}> = ({
-  corners = ['top-left', 'top-right'],
-  variant = 'flag-and-lotus',
-  className = '',
-}) => {
-  return (
-    <>
-      {corners.map((corner) => (
-        <TraditionalCornerEmblem
-          key={corner}
-          position={corner}
-          variant={variant}
-          className={className}
-        />
-      ))}
-    </>
-  );
+}> = () => {
+  return null;
 };
 
 /**

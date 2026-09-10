@@ -59,13 +59,6 @@ export const LuxuryFramesSection: React.FC = () => {
       id="couple-story"
       className="py-16 sm:py-24 relative bg-gradient-to-b from-[#FEFCF7] via-[#FFFDF9] to-[#FEFDF9] border-b border-amber-200/70 overflow-hidden"
     >
-      {/* Corner Ornaments with Waving Flag & Glowing Lotus */}
-      <SectionCornerDecorations
-        corners={['top-left', 'top-right']}
-        variant="flag-and-lotus"
-        className="opacity-75"
-      />
-
       {/* Subtle Background Decorative Glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-red-200/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
@@ -74,14 +67,15 @@ export const LuxuryFramesSection: React.FC = () => {
         <ScrollReveal direction="fly-down" duration={0.9} blurAmount={10} className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-red-50 to-amber-50 text-red-900 border border-amber-300 shadow-2xs mb-3">
             <WavingVietnameseFlag width={22} height={14} showPole={false} />
-            <span className="text-[11px] sm:text-xs uppercase tracking-widest font-bold font-heading">
-              Bộ Sưu Tập Khung Hình Cưới Truyền Thống & Sang Trọng
+            <span className="text-[11px] sm:text-xs uppercase tracking-widest font-bold font-heading whitespace-nowrap">
+              Khung Hình Cưới • Lễ Vu Quy
             </span>
             <GoldenLotusIcon size={16} className="animate-lotus-glow" />
           </div>
 
-          <h2 className="font-heading text-2xl sm:text-4xl md:text-5xl font-bold text-amber-950 tracking-tight mb-3">
-            Khung Ảnh Hạnh Phúc
+          <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-bold text-amber-950 tracking-tight mb-3 leading-tight md:whitespace-nowrap text-balance">
+            <span className="inline-block whitespace-nowrap">Khung Ảnh</span>{' '}
+            <span className="inline-block whitespace-nowrap">Hạnh Phúc</span>
           </h2>
           <div className="flex items-center justify-center gap-2 mx-auto mb-4">
             <div className="w-16 sm:w-24 h-0.5 bg-gradient-to-r from-transparent to-amber-400" />
@@ -89,7 +83,7 @@ export const LuxuryFramesSection: React.FC = () => {
             <div className="w-16 sm:w-24 h-0.5 bg-gradient-to-l from-transparent to-amber-400" />
           </div>
           <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed px-2 font-serif-cormorant italic text-base sm:text-lg">
-            “Mỗi khung hình là một tác phẩm nghệ thuật, lưu giữ trọn vẹn nét đẹp thanh xuân, nụ cười rạng rỡ và tình yêu vĩnh cửu của Thanh Nhi & Minh Cảnh trong tà áo dài truyền thống Việt Nam.”
+            “Mỗi khung hình là một tác phẩm nghệ thuật, lưu giữ trọn vẹn nét đẹp thanh xuân, nụ cười rạng rỡ và tình yêu vĩnh cửu của <span className="whitespace-nowrap">Thanh Nhi & Minh Cảnh</span> trong tà áo dài truyền thống Việt Nam.”
           </p>
         </ScrollReveal>
 
@@ -129,7 +123,7 @@ export const LuxuryFramesSection: React.FC = () => {
                     <span className="text-xs uppercase font-bold tracking-wider">Khung Ảnh Chủ Đạo</span>
                   </div>
                   <h3 className="font-heading text-lg sm:text-xl font-bold text-white">
-                    Minh Cảnh & Thanh Nhi • Lễ Vu Quy
+                    Thanh Nhi & Minh Cảnh • Lễ Vu Quy
                   </h3>
                   <p className="text-xs sm:text-sm text-stone-200 font-serif-cormorant italic mt-1">
                     Nhấp để phóng to toàn màn hình chất lượng cao
